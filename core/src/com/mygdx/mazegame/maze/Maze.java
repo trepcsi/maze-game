@@ -8,18 +8,21 @@ public class Maze {
 
     private final Texture empty_cell = new Texture("grey_rectangle.png");
     private final Texture wall_cell = new Texture("black_rectangle.png");
+    private final Texture player_cell = new Texture("player_rectangle.png");
+    private final Texture end_cell = new Texture("end_rectangle.png");
+    private final Texture visited_cell = new Texture("visited_rectangle.png");
 
     private int[][] map = {
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-            {1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-            {1, 1, 1, 1, 1, 1, 1, 0, 0, 1},
-            {0, 1, 1, 1, 1, 1, 0, 0, 1, 1},
+            {1, 0, 0, 0, 1, 1, 1, 1, 1, 3},
+            {1, 1, 1, 0, 0, 0, 1, 1, 0, 0},
+            {1, 1, 1, 0, 1, 1, 1, 0, 0, 1},
+            {0, 1, 1, 0, 0, 0, 0, 0, 1, 1},
             {0, 0, 1, 1, 1, 1, 0, 1, 1, 1},
             {1, 0, 1, 1, 1, 1, 0, 1, 1, 1},
             {1, 0, 1, 1, 1, 0, 0, 1, 1, 1},
             {1, 0, 0, 0, 0, 0, 1, 1, 1, 1},
             {1, 0, 1, 1, 1, 1, 1, 0, 0, 1},
-            {0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+            {2, 0, 0, 0, 0, 0, 0, 0, 1, 1},
     };
 
     private final float cell_size_x = (float) (MazeGame.V_WIDTH - 200) / map.length;
@@ -27,13 +30,25 @@ public class Maze {
 
     public void draw(SpriteBatch batch) {
         for (int i = 0; i < map.length; i++) {
-            for (int j = map[0].length-1; j >= 0; j--) {
-                if (map[j][i] == 0) {
-                    batch.draw(empty_cell, (float) i * cell_size_x, (float) j * cell_size_y, cell_size_x - 1, cell_size_y - 1);
+            for (int j = 0; j < map[i].length; j++) {
+                float x = (float) j * cell_size_x;
+                float y = (float) (map.length - 1 - i) * cell_size_y;
+                float w = cell_size_x - 1;
+                float h = cell_size_y - 1;
+                if (map[i][j] == 0) {
+                    batch.draw(empty_cell, x, y, w, h);
+                } else if (map[i][j] == 1) {
+                    batch.draw(wall_cell, x, y, w, h);
+                } else if (map[i][j] == 2) {
+                    batch.draw(player_cell, x, y, w, h);
+                } else if (map[i][j] == 3) {
+                    batch.draw(end_cell, x, y, w, h);
                 } else {
-                    batch.draw(wall_cell, (float) i * cell_size_x, (float) j * cell_size_y, cell_size_x - 1, cell_size_y - 1);
+                    batch.draw(visited_cell, x, y, w, h);
                 }
             }
         }
     }
+
+
 }

@@ -29,7 +29,7 @@ public class MazeScreen implements Screen {
         //update(delta); handle input
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(255/255f, 50/255f, 50/255f, 1);
+        Gdx.gl.glClearColor(100/255f, 100/255f, 255/255f, 1);
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         maze.draw(game.batch);
