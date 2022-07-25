@@ -1,5 +1,7 @@
 package com.mygdx.mazegame.maze;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.mazegame.MazeGame;
@@ -24,6 +26,9 @@ public class Maze {
             {1, 0, 1, 1, 1, 1, 1, 0, 0, 1},
             {2, 0, 0, 0, 0, 0, 0, 0, 1, 1},
     };
+
+    private int player_x = 0;
+    private int player_y = map.length - 1;
 
     private final float cell_size_x = (float) (MazeGame.V_WIDTH - 200) / map.length;
     private final float cell_size_y = (float) (MazeGame.V_HEIGHT) / map[0].length;
@@ -50,5 +55,23 @@ public class Maze {
         }
     }
 
+    public void move() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            map[player_y][player_x] = -1;
+            map[++player_y][player_x] = 2;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            map[player_y][player_x] = -1;
+            map[--player_y][player_x] = 2;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            map[player_y][player_x] = -1;
+            map[player_y][++player_x] = 2;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            map[player_y][player_x] = -1;
+            map[player_y][--player_x] = 2;
+        }
+    }
 
 }

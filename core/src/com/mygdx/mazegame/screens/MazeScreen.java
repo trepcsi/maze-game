@@ -25,8 +25,8 @@ public class MazeScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
-        //update(delta); handle input
+    public void render(float dt) {
+        update(dt);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(100/255f, 100/255f, 255/255f, 1);
@@ -34,6 +34,10 @@ public class MazeScreen implements Screen {
         game.batch.begin();
         maze.draw(game.batch);
         game.batch.end();
+    }
+
+    private void update(float dt) {
+        maze.move();
     }
 
     @Override
