@@ -14,17 +14,17 @@ public class Maze {
     private final Texture end_cell = new Texture("end_rectangle.png");
     private final Texture visited_cell = new Texture("visited_rectangle.png");
 
-    private int[][] map = {
-            {1, 0, 0, 0, 1, 1, 1, 1, 1, 3},
-            {1, 1, 1, 0, 0, 0, 1, 1, 0, 0},
-            {1, 1, 1, 0, 1, 1, 1, 0, 0, 1},
-            {0, 1, 1, 0, 0, 0, 0, 0, 1, 1},
-            {0, 0, 1, 1, 1, 1, 0, 1, 1, 1},
-            {1, 0, 1, 1, 1, 1, 0, 1, 1, 1},
-            {1, 0, 1, 1, 1, 0, 0, 1, 1, 1},
-            {1, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-            {1, 0, 1, 1, 1, 1, 1, 0, 0, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+    private CellType[][] map = {
+            {CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.FINISH},
+            {CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY},
+            {CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL},
+            {CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL},
+            {CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
+            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
+            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
+            {CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL},
+            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL},
+            {CellType.PLAYER, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL},
     };
 
     private int player_x = 0;
@@ -40,16 +40,13 @@ public class Maze {
                 float y = (float) (map.length - 1 - i) * cell_size_y;
                 float w = cell_size_x - 1;
                 float h = cell_size_y - 1;
-                if (map[i][j] == 0) {
-                    batch.draw(empty_cell, x, y, w, h);
-                } else if (map[i][j] == 1) {
-                    batch.draw(wall_cell, x, y, w, h);
-                } else if (map[i][j] == 2) {
-                    batch.draw(player_cell, x, y, w, h);
-                } else if (map[i][j] == 3) {
-                    batch.draw(end_cell, x, y, w, h);
-                } else {
-                    batch.draw(visited_cell, x, y, w, h);
+
+                switch (map[i][j]) {
+                    case EMPTY -> batch.draw(empty_cell, x, y, w, h);
+                    case WALL -> batch.draw(wall_cell, x, y, w, h);
+                    case PLAYER -> batch.draw(player_cell, x, y, w, h);
+                    case FINISH -> batch.draw(end_cell, x, y, w, h);
+                    case VISITED -> batch.draw(visited_cell, x, y, w, h);
                 }
             }
         }
@@ -57,27 +54,27 @@ public class Maze {
 
     public void move() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (map[player_y + 1][player_x] != 1) {
-                map[player_y][player_x] = -1;
-                map[++player_y][player_x] = 2;
+            if (map[player_y + 1][player_x] != CellType.WALL) {
+                map[player_y][player_x] = CellType.VISITED;
+                map[++player_y][player_x] = CellType.PLAYER;
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (map[player_y - 1][player_x] != 1) {
-                map[player_y][player_x] = -1;
-                map[--player_y][player_x] = 2;
+            if (map[player_y - 1][player_x] != CellType.WALL) {
+                map[player_y][player_x] = CellType.VISITED;
+                map[--player_y][player_x] = CellType.PLAYER;
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (map[player_y][player_x + 1] != 1) {
-                map[player_y][player_x] = -1;
-                map[player_y][++player_x] = 2;
+            if (map[player_y][player_x + 1] != CellType.WALL) {
+                map[player_y][player_x] = CellType.VISITED;
+                map[player_y][++player_x] = CellType.PLAYER;
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (map[player_y][player_x - 1] != 1) {
-                map[player_y][player_x] = -1;
-                map[player_y][--player_x] = 2;
+            if (map[player_y][player_x - 1] != CellType.WALL) {
+                map[player_y][player_x] = CellType.VISITED;
+                map[player_y][--player_x] = CellType.PLAYER;
             }
         }
     }
