@@ -12,14 +12,14 @@ import com.mygdx.mazegame.maze.MazeGenerator;
 
 public class MazeScreen implements Screen {
 
-    private MazeGame game;
-    private OrthographicCamera camera;
-    private FitViewport viewport;
+    private final MazeGame game;
+    private final OrthographicCamera camera;
+    private final FitViewport viewport;
 
-    private Maze maze;
-    private MazeGenerator mazeGenerator;
+    private final Maze maze;
+    private final MazeGenerator mazeGenerator;
 
-    private SideMenuBar menu;
+    private final SideMenuBar menu;
 
     public MazeScreen(MazeGame game) {
         this.game = game;
