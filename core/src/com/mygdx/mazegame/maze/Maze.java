@@ -54,28 +54,35 @@ public class Maze {
 
     public void move() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            if (map[player_y + 1][player_x] != CellType.WALL) {
-                map[player_y][player_x] = CellType.VISITED;
-                map[++player_y][player_x] = CellType.PLAYER;
+            if (player_y + 1 <= map.length - 1) {
+                if (map[player_y + 1][player_x] != CellType.WALL) {
+                    map[player_y][player_x] = CellType.VISITED;
+                    map[++player_y][player_x] = CellType.PLAYER;
+                }
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            if (map[player_y - 1][player_x] != CellType.WALL) {
-                map[player_y][player_x] = CellType.VISITED;
-                map[--player_y][player_x] = CellType.PLAYER;
+            if (player_y - 1 >= 0) {
+                if (map[player_y - 1][player_x] != CellType.WALL) {
+                    map[player_y][player_x] = CellType.VISITED;
+                    map[--player_y][player_x] = CellType.PLAYER;
+                }
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            if (map[player_y][player_x + 1] != CellType.WALL) {
-                map[player_y][player_x] = CellType.VISITED;
-                map[player_y][++player_x] = CellType.PLAYER;
+            if (player_x + 1 <= map[0].length - 1) {
+                if (map[player_y][player_x + 1] != CellType.WALL) {
+                    map[player_y][player_x] = CellType.VISITED;
+                    map[player_y][++player_x] = CellType.PLAYER;
+                }
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            if (map[player_y][player_x - 1] != CellType.WALL) {
-                map[player_y][player_x] = CellType.VISITED;
-                map[player_y][--player_x] = CellType.PLAYER;
-            }
+            if (player_x - 1 >= 0)
+                if (map[player_y][player_x - 1] != CellType.WALL) {
+                    map[player_y][player_x] = CellType.VISITED;
+                    map[player_y][--player_x] = CellType.PLAYER;
+                }
         }
     }
 
