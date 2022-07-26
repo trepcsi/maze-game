@@ -57,20 +57,28 @@ public class Maze {
 
     public void move() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            map[player_y][player_x] = -1;
-            map[++player_y][player_x] = 2;
+            if (map[player_y + 1][player_x] != 1) {
+                map[player_y][player_x] = -1;
+                map[++player_y][player_x] = 2;
+            }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            map[player_y][player_x] = -1;
-            map[--player_y][player_x] = 2;
+            if (map[player_y - 1][player_x] != 1) {
+                map[player_y][player_x] = -1;
+                map[--player_y][player_x] = 2;
+            }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            map[player_y][player_x] = -1;
-            map[player_y][++player_x] = 2;
+            if (map[player_y][player_x + 1] != 1) {
+                map[player_y][player_x] = -1;
+                map[player_y][++player_x] = 2;
+            }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            map[player_y][player_x] = -1;
-            map[player_y][--player_x] = 2;
+            if (map[player_y][player_x - 1] != 1) {
+                map[player_y][player_x] = -1;
+                map[player_y][--player_x] = 2;
+            }
         }
     }
 
