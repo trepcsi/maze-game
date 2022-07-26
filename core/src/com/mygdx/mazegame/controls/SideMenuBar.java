@@ -51,9 +51,9 @@ public class SideMenuBar implements Disposable {
             }
         });
 
-        table.add(generateButton).size(100, 50).right().padTop(50).padRight(50);
+        table.add(generateButton).size(140, 60).right().padTop(60).padRight(30);
         table.row();
-        table.add(playButton).size(100, 50).right().padTop(50).padRight(50);
+        table.add(playButton).size(140, 60).right().padTop(60).padRight(30);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
