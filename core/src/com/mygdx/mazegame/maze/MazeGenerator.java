@@ -17,7 +17,7 @@ public class MazeGenerator {
         CellType empty = CellType.EMPTY;
         CellType wall = CellType.WALL;
 
-        CellType[][] newMap = new CellType[20][20];
+        CellType[][] newMap = new CellType[dimension][dimension];
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 if (new Random().nextInt() % 2 == 0) {

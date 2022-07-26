@@ -28,7 +28,7 @@ public class MazeScreen implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         menu = new SideMenuBar(game.batch, this);
         this.maze = new Maze();
-        this.mazeGenerator = new MazeGenerator(maze, 20); //20x20 maze
+        this.mazeGenerator = new MazeGenerator(maze, 30); //30x30 maze
         mazeGenerator.createMaze();
     }
 
