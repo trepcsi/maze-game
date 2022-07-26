@@ -14,26 +14,17 @@ public class Maze {
     private final Texture end_cell = new Texture("end_rectangle.png");
     private final Texture visited_cell = new Texture("visited_rectangle.png");
 
-    private CellType[][] map = {
-            {CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.FINISH},
-            {CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY},
-            {CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL},
-            {CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL},
-            {CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
-            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
-            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL},
-            {CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL},
-            {CellType.WALL, CellType.EMPTY, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.WALL, CellType.EMPTY, CellType.EMPTY, CellType.WALL},
-            {CellType.PLAYER, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.EMPTY, CellType.WALL, CellType.WALL},
-    };
+    private CellType[][] map;
 
-    private int player_x = 0;
-    private int player_y = map.length - 1;
+    private int player_x;// = 0;
+    private int player_y;// = map.length - 1;
 
-    private final float cell_size_x = (float) (MazeGame.V_WIDTH - 200) / map.length;
-    private final float cell_size_y = (float) (MazeGame.V_HEIGHT) / map[0].length;
+    private float cell_size_x;// = (float) (MazeGame.V_WIDTH - 200) / map.length;
+    private float cell_size_y;// = (float) (MazeGame.V_HEIGHT) / map[0].length;
 
     public void draw(SpriteBatch batch) {
+        if (map == null) return;
+
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 float x = (float) j * cell_size_x;
@@ -53,6 +44,8 @@ public class Maze {
     }
 
     public void move() {
+        if (map == null) return;
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             if (player_y + 1 <= map.length - 1) {
                 if (map[player_y + 1][player_x] != CellType.WALL) {
@@ -85,5 +78,16 @@ public class Maze {
                 }
         }
     }
+
+    public CellType[][] getMap() {
+        return map;
+    }
+
+    public void setMap(CellType[][] map) {
+        this.map = map;
+        cell_size_x = (float) (MazeGame.V_WIDTH - 200) / map.length;
+        cell_size_y = (float) (MazeGame.V_HEIGHT) / map[0].length;
+    }
+
 
 }
