@@ -8,11 +8,11 @@ import com.mygdx.mazegame.MazeGame;
 
 public class Maze {
 
-    private final Texture empty_cell = new Texture("grey_rectangle.png");
-    private final Texture wall_cell = new Texture("black_rectangle.png");
-    private final Texture player_cell = new Texture("player_rectangle.png");
-    private final Texture end_cell = new Texture("end_rectangle.png");
-    private final Texture visited_cell = new Texture("visited_rectangle.png");
+    private final Texture empty_cell = new Texture("cells/grey_rectangle.png");
+    private final Texture wall_cell = new Texture("cells/black_rectangle.png");
+    private final Texture player_cell = new Texture("cells/player_rectangle.png");
+    private final Texture end_cell = new Texture("cells/end_rectangle.png");
+    private final Texture visited_cell = new Texture("cells/visited_rectangle.png");
 
     private CellType[][] map;
 

@@ -15,13 +15,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.mazegame.MazeGame;
 import com.mygdx.mazegame.screens.MazeScreen;
 
-public class Menu implements Disposable {
+public class SideMenuBar implements Disposable {
 
     public Stage stage;
     private final MazeScreen screen;
+    private final Skin skin;
 
-    public Menu(SpriteBatch sb, MazeScreen screen) {
+    public SideMenuBar(SpriteBatch sb, MazeScreen screen) {
         this.screen = screen;
+        skin = new Skin(Gdx.files.internal("uiskin/uiskin.json"));
         Viewport viewport = new FitViewport(MazeGame.V_WIDTH, MazeGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
         createTable();
@@ -32,27 +34,26 @@ public class Menu implements Disposable {
         table.setFillParent(true);
         table.top().right();
 
-        Skin uiSkin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        TextButton generateButton = new TextButton("Generate", uiSkin);
-        generateButton.addListener(new ClickListener(){
+        TextButton generateButton = new TextButton("Generate", skin);
+        generateButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screen.generateMaze();
             }
         });
 
-        TextButton playButton = new TextButton("Play", uiSkin);
-        playButton.addListener(new ClickListener(){
+        TextButton playButton = new TextButton("Play", skin);
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screen.startMazeGame();
             }
         });
 
-        table.add(generateButton).size(100,50).right().padTop(50).padRight(50);
+        table.add(generateButton).size(100, 50).right().padTop(50).padRight(50);
         table.row();
-        table.add(playButton).size(100,50).right().padTop(50).padRight(50);
+        table.add(playButton).size(100, 50).right().padTop(50).padRight(50);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

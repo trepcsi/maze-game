@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.mazegame.MazeGame;
-import com.mygdx.mazegame.controls.Menu;
+import com.mygdx.mazegame.controls.SideMenuBar;
 import com.mygdx.mazegame.maze.Maze;
 import com.mygdx.mazegame.maze.MazeGenerator;
 
@@ -19,14 +19,14 @@ public class MazeScreen implements Screen {
     private Maze maze;
     private MazeGenerator mazeGenerator;
 
-    private Menu menu;
+    private SideMenuBar menu;
 
     public MazeScreen(MazeGame game) {
         this.game = game;
         camera = new OrthographicCamera();
         viewport = new FitViewport(MazeGame.V_WIDTH, MazeGame.V_HEIGHT, camera);
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
-        menu = new Menu(game.batch, this);
+        menu = new SideMenuBar(game.batch, this);
         this.maze = new Maze();
         this.mazeGenerator = new MazeGenerator(maze, 20); //20x20 maze
         mazeGenerator.createMaze();
