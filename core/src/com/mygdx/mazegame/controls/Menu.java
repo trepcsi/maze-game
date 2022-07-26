@@ -42,7 +42,17 @@ public class Menu implements Disposable {
             }
         });
 
+        TextButton playButton = new TextButton("Play", uiSkin);
+        playButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screen.startMazeGame();
+            }
+        });
+
         table.add(generateButton).size(100,50).right().padTop(50).padRight(50);
+        table.row();
+        table.add(playButton).size(100,50).right().padTop(50).padRight(50);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

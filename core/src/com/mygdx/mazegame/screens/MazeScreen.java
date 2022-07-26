@@ -51,6 +51,10 @@ public class MazeScreen implements Screen {
         mazeGenerator.createMaze();
     }
 
+    public void startMazeGame() {
+        maze.startMazeGame();
+    }
+
     private void update(float dt) {
         maze.move();
     }

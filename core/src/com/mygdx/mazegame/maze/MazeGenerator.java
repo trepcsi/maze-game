@@ -26,5 +26,6 @@ public class MazeGenerator {
             }
         }
         maze.setMap(newMap);
+        maze.setPlaying(false);
     }
 }

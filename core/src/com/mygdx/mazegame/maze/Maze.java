@@ -16,8 +16,9 @@ public class Maze {
 
     private CellType[][] map;
 
-    private int player_x;// = 0;
-    private int player_y;// = map.length - 1;
+    private boolean playing = false;
+    private int player_x;
+    private int player_y;
 
     private float cell_size_x;// = (float) (MazeGame.V_WIDTH - 200) / map.length;
     private float cell_size_y;// = (float) (MazeGame.V_HEIGHT) / map[0].length;
@@ -44,7 +45,7 @@ public class Maze {
     }
 
     public void move() {
-        if (map == null) return;
+        if (!playing) return;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             if (player_y + 1 <= map.length - 1) {
@@ -79,15 +80,21 @@ public class Maze {
         }
     }
 
-    public CellType[][] getMap() {
-        return map;
-    }
-
     public void setMap(CellType[][] map) {
         this.map = map;
         cell_size_x = (float) (MazeGame.V_WIDTH - 200) / map.length;
         cell_size_y = (float) (MazeGame.V_HEIGHT) / map[0].length;
     }
 
+    public void setPlaying(boolean isPlaying){
+        this.playing = isPlaying;
+    }
 
+    public void startMazeGame() {
+        playing = true;
+        player_x = 0;
+        player_y = map.length - 1;
+        map[player_y][player_x] = CellType.PLAYER;
+        map[0][map[0].length-1] = CellType.FINISH;
+    }
 }
