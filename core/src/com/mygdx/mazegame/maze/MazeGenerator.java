@@ -25,13 +25,13 @@ public class MazeGenerator {
             }
         }
 
-        newMap = kruskal(newMap);
+        kruskal(newMap);
 
         maze.setMap(newMap);
         maze.setPlaying(false);
     }
 
-    private CellType[][] kruskal(CellType[][] maze) {
+    private void kruskal(CellType[][] maze) {
         Random random = new Random();
         int destroyedWallCount = 0;
         int emptyCellCount = countEmpty(maze);
@@ -86,17 +86,15 @@ public class MazeGenerator {
                 }
             }
         }
-        return maze;
     }
 
-    private int[][] uniteLabels(int to, int from, int[][] labels) {
+    private void uniteLabels(int to, int from, int[][] labels) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels[0].length; j++) {
                 if (labels[i][j] == from)
                     labels[i][j] = to;
             }
         }
-        return labels;
     }
 
     private int[][] fillLabels(CellType[][] maze) {
