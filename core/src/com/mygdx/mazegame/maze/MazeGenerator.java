@@ -1,19 +1,31 @@
 package com.mygdx.mazegame.maze;
 
 
+import com.mygdx.mazegame.screens.MazeScreen;
+
 import java.util.Random;
 
 public class MazeGenerator {
 
+    private MazeScreen screen;
     private Maze maze;
     private int dimension;
 
-    public MazeGenerator(Maze maze, int dim) {
+    private int destroyedWallCount;
+    private int emptyCellCount;
+
+    private int [][] labels;
+
+    private float elapsedTime = 0.f;
+
+    public MazeGenerator(MazeScreen screen, Maze maze, int dim) {
+        this.screen = screen;
         this.dimension = dim - 1;
         this.maze = maze;
+        initMaze();
     }
 
-    public void createMaze() {
+    public void initMaze() {
         CellType[][] newMap = new CellType[dimension][dimension];
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
@@ -24,19 +36,29 @@ public class MazeGenerator {
                 }
             }
         }
-
-        newMap = kruskal(newMap);
-
         maze.setMap(newMap);
         maze.setPlaying(false);
+        emptyCellCount = countEmpty(maze.getMap());
+        destroyedWallCount = 0;
+        labels = fillLabels(maze.getMap());
     }
 
-    private CellType[][] kruskal(CellType[][] maze) {
+    public void createMaze(float dt) {
+        elapsedTime += dt;
+        if (elapsedTime > 0.05f) {
+            elapsedTime = 0.f;
+            CellType[][] newMap = maze.getMap();
+            kruskal(newMap);
+
+            maze.setMap(newMap);
+            maze.setPlaying(false);
+        }
+    }
+
+    private void kruskal(CellType[][] maze) {
         Random random = new Random();
-        int destroyedWallCount = 0;
-        int emptyCellCount = countEmpty(maze);
-        int[][] labels = fillLabels(maze);
-        while (destroyedWallCount < emptyCellCount - 1) {
+
+        if (destroyedWallCount < emptyCellCount - 1) {
             int random_cell_x = random.nextInt(maze.length / 2 + 1) * 2;
             int random_cell_y = random.nextInt(maze[0].length / 2 + 1) * 2;
 
@@ -85,18 +107,18 @@ public class MazeGenerator {
                     }
                 }
             }
+        } else {
+            screen.generating = false;
         }
-        return maze;
     }
 
-    private int[][] uniteLabels(int to, int from, int[][] labels) {
+    private void uniteLabels(int to, int from, int[][] labels) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels[0].length; j++) {
                 if (labels[i][j] == from)
                     labels[i][j] = to;
             }
         }
-        return labels;
     }
 
     private int[][] fillLabels(CellType[][] maze) {

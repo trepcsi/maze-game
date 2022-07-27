@@ -86,7 +86,11 @@ public class Maze {
         cell_size_y = (float) (MazeGame.V_HEIGHT) / map[0].length;
     }
 
-    public void setPlaying(boolean isPlaying){
+    public CellType[][] getMap() {
+        return map;
+    }
+
+    public void setPlaying(boolean isPlaying) {
         this.playing = isPlaying;
     }
 
@@ -95,6 +99,6 @@ public class Maze {
         player_x = 0;
         player_y = map.length - 1;
         map[player_y][player_x] = CellType.PLAYER;
-        map[0][map[0].length-1] = CellType.FINISH;
+        map[0][map[0].length - 1] = CellType.FINISH;
     }
 }

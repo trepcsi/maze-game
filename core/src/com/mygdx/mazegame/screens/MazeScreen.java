@@ -20,6 +20,8 @@ public class MazeScreen implements Screen {
     private final MazeGenerator mazeGenerator;
 
     private final SideMenuBar menu;
+    public boolean generating = false;
+
 
     public MazeScreen(MazeGame game) {
         this.game = game;
@@ -28,27 +30,31 @@ public class MazeScreen implements Screen {
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
         menu = new SideMenuBar(game.batch, this);
         this.maze = new Maze();
-        this.mazeGenerator = new MazeGenerator(maze, 40); //n x n maze
-        mazeGenerator.createMaze();
+        this.mazeGenerator = new MazeGenerator(this, maze, 40); //n x n maze
     }
 
     @Override
     public void render(float dt) {
         update(dt);
+        if (generating) {
+            mazeGenerator.createMaze(dt);
+        }
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(100/255f, 100/255f, 255/255f, 1);
+        Gdx.gl.glClearColor(100 / 255f, 100 / 255f, 255 / 255f, 1);
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         maze.draw(game.batch);
         game.batch.end();
-
         game.batch.setProjectionMatrix(menu.stage.getCamera().combined);
         menu.stage.draw();
     }
 
-    public void generateMaze(){
-        mazeGenerator.createMaze();
+    public void generateMaze() {
+        if (!generating) {
+            mazeGenerator.initMaze();
+        }
+        generating = true;
     }
 
     public void startMazeGame() {
