@@ -14,7 +14,7 @@ public class MazeGenerator {
     private int destroyedWallCount;
     private int emptyCellCount;
 
-    private int [][] labels;
+    private int[][] labels;
 
     private float elapsedTime = 0.f;
 
@@ -59,50 +59,54 @@ public class MazeGenerator {
         Random random = new Random();
 
         if (destroyedWallCount < emptyCellCount - 1) {
-            int random_cell_x = random.nextInt(maze.length / 2 + 1) * 2;
-            int random_cell_y = random.nextInt(maze[0].length / 2 + 1) * 2;
+            boolean additionalWallDestroyed = false;
+            while (!additionalWallDestroyed) {
+                int random_cell_x = random.nextInt(maze.length / 2 + 1) * 2;
+                int random_cell_y = random.nextInt(maze[0].length / 2 + 1) * 2;
 
-            int randomDir = random.nextInt(4);
-            int random_wall_x = -1;
-            int random_wall_y = -1;
-            int random_neighbor_x = -1;
-            int random_neighbor_y = -1;
-            switch (randomDir) {
-                case 0 -> {
-                    random_wall_x = random_cell_x + 1;
-                    random_wall_y = random_cell_y;
-                    random_neighbor_x = random_cell_x + 2;
-                    random_neighbor_y = random_cell_y;
+                int randomDir = random.nextInt(4);
+                int random_wall_x = -1;
+                int random_wall_y = -1;
+                int random_neighbor_x = -1;
+                int random_neighbor_y = -1;
+                switch (randomDir) {
+                    case 0 -> {
+                        random_wall_x = random_cell_x + 1;
+                        random_wall_y = random_cell_y;
+                        random_neighbor_x = random_cell_x + 2;
+                        random_neighbor_y = random_cell_y;
+                    }
+                    case 1 -> {
+                        random_wall_x = random_cell_x - 1;
+                        random_wall_y = random_cell_y;
+                        random_neighbor_x = random_cell_x - 2;
+                        random_neighbor_y = random_cell_y;
+                    }
+                    case 2 -> {
+                        random_wall_x = random_cell_x;
+                        random_wall_y = random_cell_y + 1;
+                        random_neighbor_x = random_cell_x;
+                        random_neighbor_y = random_cell_y + 2;
+                    }
+                    case 3 -> {
+                        random_wall_x = random_cell_x;
+                        random_wall_y = random_cell_y - 1;
+                        random_neighbor_x = random_cell_x;
+                        random_neighbor_y = random_cell_y - 2;
+                    }
                 }
-                case 1 -> {
-                    random_wall_x = random_cell_x - 1;
-                    random_wall_y = random_cell_y;
-                    random_neighbor_x = random_cell_x - 2;
-                    random_neighbor_y = random_cell_y;
-                }
-                case 2 -> {
-                    random_wall_x = random_cell_x;
-                    random_wall_y = random_cell_y + 1;
-                    random_neighbor_x = random_cell_x;
-                    random_neighbor_y = random_cell_y + 2;
-                }
-                case 3 -> {
-                    random_wall_x = random_cell_x;
-                    random_wall_y = random_cell_y - 1;
-                    random_neighbor_x = random_cell_x;
-                    random_neighbor_y = random_cell_y - 2;
-                }
-            }
-            if (random_wall_x >= 0 && random_wall_x < maze.length
-                    && random_wall_y >= 0 && random_wall_y < maze[0].length
-                    && random_neighbor_x >= 0 && random_neighbor_x < maze.length
-                    && random_neighbor_y >= 0 && random_neighbor_y < maze[0].length) {
-                if (maze[random_wall_x][random_wall_y] == CellType.WALL) {
-                    if (maze[random_neighbor_x][random_neighbor_y] == CellType.EMPTY) {
-                        if (labels[random_cell_x][random_cell_y] != labels[random_neighbor_x][random_neighbor_y]) {
-                            maze[random_wall_x][random_wall_y] = CellType.EMPTY;
-                            destroyedWallCount++;
-                            uniteLabels(labels[random_cell_x][random_cell_y], labels[random_neighbor_x][random_neighbor_y], labels);
+                if (random_wall_x >= 0 && random_wall_x < maze.length
+                        && random_wall_y >= 0 && random_wall_y < maze[0].length
+                        && random_neighbor_x >= 0 && random_neighbor_x < maze.length
+                        && random_neighbor_y >= 0 && random_neighbor_y < maze[0].length) {
+                    if (maze[random_wall_x][random_wall_y] == CellType.WALL) {
+                        if (maze[random_neighbor_x][random_neighbor_y] == CellType.EMPTY) {
+                            if (labels[random_cell_x][random_cell_y] != labels[random_neighbor_x][random_neighbor_y]) {
+                                maze[random_wall_x][random_wall_y] = CellType.EMPTY;
+                                destroyedWallCount++;
+                                uniteLabels(labels[random_cell_x][random_cell_y], labels[random_neighbor_x][random_neighbor_y], labels);
+                                additionalWallDestroyed = true;
+                            }
                         }
                     }
                 }
